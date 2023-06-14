@@ -5,6 +5,16 @@ import { Routes, Route, Link } from "react-router-dom";
 const App = () => {
   return (
     <>
+    <div>
+      <nav>
+        <Link to="/">
+          Home
+        </Link>
+        <Link to="/pizza" id="order-pizza">
+          Pizza
+        </Link>
+      </nav>
+    </div>
     <Routes>
       <Route path='/' element={<div>Home</div>}/>
       <Route path='/pizza' element={<PizzaForm/>}/>
