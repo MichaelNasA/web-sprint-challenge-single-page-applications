@@ -1,10 +1,22 @@
 import React, { useState } from 'react'
-import yup from 'yup'
+import axios from 'axios';
+
 
 export function PizzaForm(props){
     const [size, setSize] = useState('');
     const [toppings, setToppings] = useState([]);
     const [specialInstructions, setSpecialInstructions] = useState('');
+    const [name, setName] = useState('');
+    const [error, setError] = useState('');
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+    if(name.length < 2){
+        setError("name must be at least 2 characters");
+    } else {
+        setError("");
+    }
+  }
 
   const handleSizeChange = (event) => {
     setSize(event.target.value);
@@ -28,17 +40,25 @@ export function PizzaForm(props){
 
     // Here, you can perform your database record creation logic using the form data
     const orderData = {
-        name: 'string',
-        size: 'string',
-        topping1: '',
-        topping2: '',
-        special: 'string',
+        name: name,
+        size: size,
+        toppings: toppings,
+        special: specialInstructions,
     };
 
     console.log('Order Data:', orderData);
+
+    axios.post(`https://reqres.in/api/orders`, orderData).then( (res) => {
+        console.log();
+    })
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="pizza-form">
+        <label>
+            name
+            <input id="name-input" value={name} onChange={handleNameChange}/>
+            {error && <p>{error}</p>}
+        </label>
       <label>
         Pizza Size:
         <select id="size-dropdown" value={size} onChange={handleSizeChange}>
